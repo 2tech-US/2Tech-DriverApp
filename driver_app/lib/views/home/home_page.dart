@@ -33,7 +33,7 @@ class _HomePageState extends State<HomePage> {
                   style: BaseTextStyle.fontFamilyBold(Colors.black, 18),
                 ),
                 accountEmail: Text(
-                  "passenger@gmail.com",
+                  "driver@gmail.com",
                   style: BaseTextStyle.fontFamilyRegular(Colors.black, 17),
                 )),
             ListTile(
