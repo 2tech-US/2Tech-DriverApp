@@ -5,7 +5,6 @@ import 'package:driver_app/models/shared_preferences/shared_preferences_model.da
 import 'package:driver_app/service/base_service.dart';
 import 'package:driver_app/service/service_path.dart';
 
-
 part 'authentication_state.dart';
 
 class AuthenticationCubit extends Cubit<CubitState> {
