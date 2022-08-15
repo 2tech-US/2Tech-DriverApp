@@ -1,6 +1,7 @@
 import 'package:driver_app/cubit/app_cubit.dart';
 import 'package:driver_app/cubit/app_cubit_logic.dart';
 import 'package:driver_app/utils/base_constant.dart';
+import 'package:driver_app/views/home/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,7 +35,9 @@ class MyApp extends StatelessWidget {
             initialRoute: '/',
             debugShowCheckedModeBanner: false,
             theme: baseTheme(),
-            home: const AppCubitLogic(),
+            home:
+                // const AppCubitLogic(),
+                const HomePage(),
           );
         },
       ),
