@@ -13,7 +13,8 @@ class AuthenticationCubit extends Cubit<CubitState> {
   }
 
   void startAuth() async {
-    LoginRequest loginRequest = LoginRequest(phone: "", password: "");
+    LoginRequest loginRequest =
+        LoginRequest(phone: "", password: "", deviceToken: "");
     await getLocalUsername().then((phone) {
       loginRequest.phone = phone ?? "";
     });
