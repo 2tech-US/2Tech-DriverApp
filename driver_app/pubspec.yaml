@@ -43,6 +43,9 @@ dependencies:
   bloc: ^8.0.3
   geolocator: ^9.0.1
   flutter_spinkit: ^5.1.0
+  overlay_support:
+  firebase_core:
+  firebase_messaging:
 
 dev_dependencies:
   flutter_test:

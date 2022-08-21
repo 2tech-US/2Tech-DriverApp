@@ -7,6 +7,8 @@ import 'package:driver_app/utils/base_constant.dart';
 import 'package:driver_app/widgets/custom_button/custom_button.dart';
 import 'package:driver_app/widgets/custom_textfield/custom_textfield.dart';
 import 'package:driver_app/widgets/template_page/common_page.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -22,12 +24,26 @@ class _LoginPageState extends State<LoginPage> {
   String? _passwordError;
   final _phoneController = TextEditingController();
   final _passwordController = TextEditingController();
+  late final FirebaseMessaging _messaging;
+  String? deviceToken;
 
   @override
   void initState() {
     super.initState();
+    _getDeviceToken();
     _phoneController.text = "00000000";
     _passwordController.text = "12345678";
+  }
+
+  Future _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+    print("Handling background message: ${message.messageId}");
+  }
+
+  void _getDeviceToken() async {
+    await Firebase.initializeApp();
+    _messaging = FirebaseMessaging.instance;
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+    deviceToken = await _messaging.getToken();
   }
 
   @override
@@ -151,9 +167,14 @@ class _LoginPageState extends State<LoginPage> {
     final String phone = _phoneController.text;
     final String password = _passwordController.text;
     if (validLoginData()) {
+      print('Device Token in LoginPage: $deviceToken');
+
       bool validUserInput = await BlocProvider.of<AuthenticationCubit>(context)
           .loginValid(LoginRequest(
-              phone: phone, password: password, deviceToken: "abcd"));
+        phone: phone,
+        password: password,
+        deviceToken: deviceToken ?? "abcd",
+      ));
       if (validUserInput) {
         await BlocProvider.of<AppCubit>(context).authenticate();
         showSnackbarMsg(context, "Đăng nhập thành công");
