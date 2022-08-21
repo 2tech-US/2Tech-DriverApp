@@ -4,5 +4,6 @@ class ServicePath {
   static const String register = "$apiUrl/auth/register";
 
   //Driver
-  static const String getDriverInfor = "$apiUrl/passengers/";
+  static const String getDriverInfor = "$apiUrl/drivers/";
+  static const String updateDriverLocation = "$apiUrl/drivers/location";
 }

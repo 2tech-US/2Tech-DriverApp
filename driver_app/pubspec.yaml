@@ -46,6 +46,7 @@ dependencies:
   overlay_support:
   firebase_core:
   firebase_messaging:
+  location: ^4.4.0 
 
 dev_dependencies:
   flutter_test:

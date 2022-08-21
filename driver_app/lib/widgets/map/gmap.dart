@@ -2,6 +2,7 @@ import 'package:driver_app/utils/base_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 
 class Gmap extends StatefulWidget {
   const Gmap({Key? key, required this.scaffoldState}) : super(key: key);
@@ -13,38 +14,18 @@ class Gmap extends StatefulWidget {
 
 class _GmapState extends State<Gmap> {
   late GoogleMapController _mapController;
-  late Position currentPosition;
   // GoogleMapsPlaces googlePlaces;
   TextEditingController destinationController = TextEditingController();
-  Color darkBlue = Colors.black;
-  Color grey = Colors.grey;
   GlobalKey<ScaffoldState> scaffoldSate = GlobalKey<ScaffoldState>();
+  LocationData? currentLocation;
 
-  void _determinePosition() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-    // Test if location services are enabled.
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      return Future.error('Location services are disabled.');
-    }
-
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        return Future.error('Location permissions are denied');
-      }
-    }
-    if (permission == LocationPermission.deniedForever) {
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
-    }
-
-    currentPosition = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
+  void getCurrentLocation() async {
+    Location location = Location();
+    location.getLocation().then((location) {
+      currentLocation = location;
+    });
     CameraPosition _myCurrentLocation = CameraPosition(
-      target: LatLng(currentPosition.latitude, currentPosition.longitude),
+      target: LatLng(currentLocation!.latitude!, currentLocation!.longitude!),
       zoom: 14.4746,
     );
     _mapController
@@ -60,6 +41,7 @@ class _GmapState extends State<Gmap> {
   void initState() {
     super.initState();
     scaffoldSate = widget.scaffoldState;
+    getCurrentLocation();
   }
 
   @override
@@ -74,7 +56,7 @@ class _GmapState extends State<Gmap> {
         rotateGesturesEnabled: true,
         onMapCreated: (GoogleMapController controller) {
           _mapController = controller;
-          _determinePosition();
+          getCurrentLocation();
         },
       ),
       Positioned(
