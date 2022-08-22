@@ -7,8 +7,8 @@ class User {
 
   static User loginResponse(Map<String, dynamic> json) {
     return User(
-        id: json["passenger"]["id"],
-        phone: json["passenger"]["phone"],
-        name: json["passenger"]["name"] ?? "Passenger");
+        id: json["driver"]["id"] ?? "1",
+        phone: json["driver"]["phone"] ?? "1111111111",
+        name: json["driver"]["name"] ?? "Driver");
   }
 }
