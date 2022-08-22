@@ -26,10 +26,19 @@ class BaseService {
     http.Response response = await http.Client()
         .post(Uri.parse(uri), headers: getHeaders(), body: jsonEncode(params));
     if (response.statusCode == 200 || response.statusCode == 201) {
-      print('Response body: ${response.body}');
       return json.decode(response.body);
     }
-    print('Response statusCode: ${response.statusCode}');
+    return null;
+  }
+
+  static Future<Map<String, dynamic>?> putData(
+      String uri, Map<String, dynamic> params,
+      {String? token}) async {
+    http.Response response = await http.Client().put(Uri.parse(uri),
+        headers: getHeaders(token: token), body: jsonEncode(params));
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return json.decode(response.body);
+    }
     return null;
   }
 

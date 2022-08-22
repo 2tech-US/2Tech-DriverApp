@@ -4,8 +4,10 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class Gmap extends StatefulWidget {
-  const Gmap({Key? key, required this.scaffoldState}) : super(key: key);
+  const Gmap({Key? key, required this.scaffoldState, required this.callBack})
+      : super(key: key);
   final GlobalKey<ScaffoldState> scaffoldState;
+  final Function(LatLng) callBack;
 
   @override
   State<Gmap> createState() => _GmapState();
@@ -40,9 +42,11 @@ class _GmapState extends State<Gmap> {
       return Future.error(
           'Location permissions are permanently denied, we cannot request permissions.');
     }
-
     currentPosition = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
+    widget
+        .callBack(LatLng(currentPosition.latitude, currentPosition.longitude));
+
     CameraPosition _myCurrentLocation = CameraPosition(
       target: LatLng(currentPosition.latitude, currentPosition.longitude),
       zoom: 14.4746,

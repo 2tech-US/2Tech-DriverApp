@@ -5,6 +5,7 @@ import 'package:driver_app/views/home/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:overlay_support/overlay_support.dart';
 
 void main() {
   setOrientations();
@@ -31,12 +32,14 @@ class MyApp extends StatelessWidget {
           }
         },
         builder: (context, state) {
-          return MaterialApp(
-            initialRoute: '/',
-            debugShowCheckedModeBanner: false,
-            theme: baseTheme(),
-            home: const AppCubitLogic(),
-            // const HomePage(),
+          return OverlaySupport.global(
+            child: MaterialApp(
+              initialRoute: '/',
+              debugShowCheckedModeBanner: false,
+              theme: baseTheme(),
+              home: const AppCubitLogic(),
+              // const HomePage(),
+            ),
           );
         },
       ),
